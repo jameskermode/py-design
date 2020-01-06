@@ -4,8 +4,13 @@
 from numpy.distutils.core import setup
 from numpy.distutils.core import Extension
 import os
+import platform
 import glob
 
+
+extra_link_args = []
+if platform.system == 'Darwin':
+    extra_link_args = ['-undefined dynamic_lookup']
 
 setup(name='py-design',
       version='2.0',
@@ -18,5 +23,5 @@ setup(name='py-design',
                 'sparse grid', 'computer experiments'],
       ext_modules=[Extension('design._design',
                             glob.glob(os.path.join('src', '*.f90')),
-                            extra_link_args=['-undefined dynamic_lookup'])],
+                            extra_link_args=extra_link_args)],
       packages=['design'])
